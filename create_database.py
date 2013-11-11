@@ -8,13 +8,15 @@ db=_mysql.connect(host="localhost",user="root",
 
 setup = """
 
+DROP TABLE IF EXISTS project_experiments;
+DROP TABLE IF EXISTS measurements;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS experiments;
 DROP TABLE IF EXISTS procedures;
 DROP TABLE IF EXISTS reagents;
 DROP TABLE IF EXISTS equipment;
-DROP TABLE IF EXISTS measurments;
 DROP TABLE IF EXISTS specimens;
+
 
 CREATE TABLE projects(
     project_id INT NOT NULL AUTO_INCREMENT,
@@ -30,7 +32,7 @@ CREATE TABLE experiments(
 
 CREATE TABLE procedures(
     procedure_id INT NOT NULL AUTO_INCREMENT,
-    description VARCHAR(1000),
+    description VARCHAR(1000),n
     PRIMARY KEY (procedure_id)
 );
 
@@ -59,9 +61,20 @@ CREATE TABLE specimens(
 
 CREATE TABLE measurements(
     measurement_id INT NOT NULL AUTO_INCREMENT,
+    specimen_id INT NOT NULL,
     value REAL,
     type VARCHAR(30),
-    PRIMARY KEY (measurement_id)
+    PRIMARY KEY (measurement_id),
+    FOREIGN KEY (specimen_id) REFERENCES specimens (specimen_id) ON DELETE CASCADE
+);
+
+#Map a project to its experiments
+CREATE TABLE project_experiments(
+    project_id INT NOT NULL,
+    experiment_id INT NOT NULL,
+    PRIMARY KEY (project_id, experiment_id),
+    FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE,
+    FOREIGN KEY (experiment_id) REFERENCES experiments (experiment_id) ON DELETE CASCADE
 );
 
 
