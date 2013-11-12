@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 # Create tables and fill with initial values
 
