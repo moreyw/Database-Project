@@ -3,8 +3,11 @@
 
 import _mysql
 
-db=_mysql.connect(host="localhost",user="root",
-                  passwd="cats123", db="data")
+with open("config.conf", 'r') as file:
+    host, user, passwd, db = file.read().split()
+    
+db=_mysql.connect(host=host,user=user,
+                  passwd=passwd, db=db)
 
 setup = """
 
@@ -32,7 +35,7 @@ CREATE TABLE experiments(
 
 CREATE TABLE procedures(
     procedure_id INT NOT NULL AUTO_INCREMENT,
-    description VARCHAR(1000),n
+    description VARCHAR(1000),
     PRIMARY KEY (procedure_id)
 );
 
