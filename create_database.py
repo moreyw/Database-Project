@@ -34,6 +34,7 @@ CREATE TABLE projects(
 
 CREATE TABLE procedures(
     procedure_id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100),
     description VARCHAR(1000),
     PRIMARY KEY (procedure_id)
 );

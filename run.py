@@ -6,7 +6,8 @@ from create import *
 from database import *
 
 call = {
-    'projects' : new_project
+    'projects' : new_project,
+    'procedures' : new_procedure
 }
 
 def choose_existing(statement):
@@ -76,7 +77,12 @@ def core_choice():
     choice = None
     while choice not in range(len(s)):
         try:
-            choice = int(raw_input("=>"))
+            choice = raw_input("=>")
+            if choice == "":
+                continue
+            else:
+                choice = int(choice)
+                
             if choice == 0:
                 return None
             elif choice not in range(len(s)):
@@ -84,12 +90,12 @@ def core_choice():
         except Exception:
             print "Invalid choice, please try again."
 
-    make_choice(s[choice], "SELECT * FROM {}".format(s[choice]))
+    item = make_choice(s[choice], "SELECT * FROM {}".format(s[choice]))
     
-    print ""
     return True
 
 if __name__ == "__main__":
     while True:
         if not core_choice():
             break
+        print ""
