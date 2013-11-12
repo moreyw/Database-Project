@@ -112,6 +112,9 @@ CREATE TABLE used_on(
     FOREIGN KEY (procedure_id) REFERENCES procedures (procedure_id) ON DELETE CASCADE
 );
 
+#Start inserting test values
+INSERT INTO projects (project_id, name) VALUES (NULL, 'Sample Project');
+
 """
 
 #Execute every query in the setup
@@ -126,3 +129,5 @@ db.commit()
 db.close()
 
 print("\nSetup completed")
+
+
