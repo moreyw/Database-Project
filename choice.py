@@ -1,20 +1,13 @@
 from database import *
 import create
-import edit
 
 
-create = {
+call = {
     'projects' : create.new_project,
     'procedures' : create.new_procedure,
     'experiments' : create.new_experiment,
     'reagents' : create.new_reagent
 }
-
-edit = {
-    'projects' : edit.edit_project,
-    'procedures' : edit.edit_procedure
-}
-    
 
 def choose_existing(statement):
     db.query(statement)
@@ -43,7 +36,7 @@ def choose_existing(statement):
     return rows[choice]
 
 def create_new(value_type):
-    return create[value_type]()
+    return call[value_type]()
 
 def make_choice(name, statement, new_option=True):
     choice = None

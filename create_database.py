@@ -13,17 +13,17 @@ db=_mysql.connect(host=host,user=user,
 setup = """
 
 DROP TABLE IF EXISTS used_on;
-DROP TABLE IF EXISTS measurements;
-DROP TABLE IF EXISTS use_specimens;
-DROP TABLE IF EXISTS specimens;
+DROP TABLE IF EXISTS use_experiments;
 DROP TABLE IF EXISTS use_equipment;
-DROP TABLE IF EXISTS equipment;
 DROP TABLE IF EXISTS use_reagents;
-DROP TABLE IF EXISTS reagents;
+DROP TABLE IF EXISTS use_specimens;
+DROP TABLE IF EXISTS measurements;
+DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS experiments;
 DROP TABLE IF EXISTS procedures;
-DROP TABLE IF EXISTS projects;
-
+DROP TABLE IF EXISTS reagents;
+DROP TABLE IF EXISTS equipment;
+DROP TABLE IF EXISTS specimens;
 
 
 CREATE TABLE projects(
@@ -93,7 +93,7 @@ CREATE TABLE use_specimens(
     experiment_id INT NOT NULL,
     PRIMARY KEY (specimen_id, experiment_id),
     FOREIGN KEY (specimen_id) REFERENCES specimens (specimen_id) ON DELETE CASCADE,
-    FOREIGN KEY (experiment_id) REFERENCES experiments (experiment_id) ON DELETE CASCADE
+    FOREIGN KEY (experiment_id) REFERENCES experiment (experiment_id) ON DELETE CASCADE
 );
 
 CREATE TABLE measurements(
