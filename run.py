@@ -4,6 +4,7 @@ import _mysql
 
 from database import *
 from choice import *
+from edit import *
 
 def core_choice():
     s = ( "exit",
@@ -33,6 +34,13 @@ def core_choice():
             print "Invalid choice, please try again."
 
     item = make_choice(s[choice], "SELECT * FROM {}".format(s[choice]))
+    
+    print "\n{} INFO".format(s[choice]).upper()
+    for key in item:
+        if 'id' not in key:
+            print "{} = {}".format(key, item[key])
+    
+    edit[s[choice]](item)
     
     return True
 
