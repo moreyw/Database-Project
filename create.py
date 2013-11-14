@@ -130,4 +130,3 @@ def new_measurement(specimen_id):
     db.query("SELECT * FROM measurements WHERE measurement_id = {}".format(db.insert_id()))
     r = db.store_result()
     return r.fetch_row(how=1)[0]
-
