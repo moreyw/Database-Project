@@ -1,5 +1,6 @@
 
 from database import *
+import choice
 
 
 def choose_field(fields):
@@ -9,22 +10,22 @@ def choose_field(fields):
     for i, field in enumerate(fields):
         print "{}: {}".format(i, field)
 
-    choice = None
-    while choice not in range(len(fields)):
+    selection = None
+    while selection not in range(len(fields)):
         try:
-            choice = int(raw_input("Edit field (num): "))
-            if choice not in range(len(fields)):
+            selection = int(raw_input("Edit field (num): "))
+            if selection not in range(len(fields)):
                 raise ValueError("invalid choice")
         except Exception:
             print "Invalid choice, please try again."
 
-    return fields[choice]
+    return fields[selection]
 
     
 def edit_project(project):
-    choice = choose_field(["Name"])
+    selection = choose_field(["Name"])
     
-    if choice == "Name":
+    if selection == "Name":
         name = raw_input("Enter a new name: ")
 
         db.query("""
@@ -38,9 +39,10 @@ def edit_project(project):
 
 def edit_procedure(procedure):
     id = procedure["procedure_id"]
-    choice = choose_field(["Name", "Description"])
+    selection = choose_field(["Name", "Description"])
     
-    if choice == "Name":
+    
+    if selection == "Name":
         name = raw_input("Enter a new name: ")
 
         db.query("""
@@ -50,7 +52,7 @@ def edit_procedure(procedure):
 
         """.format(name=name, id=id))
 
-    elif choice == "Description":
+    elif selection == "Description":
         description = raw_input("Enter a new description: ")
 
         db.query("""
@@ -61,3 +63,32 @@ def edit_procedure(procedure):
         """.format(description=description, id=id))
         
     db.commit()
+
+def edit_experiment(experiment):
+    id = experiment["experiment_id"]
+    selection = choose_field(["Name", "Project", "Procedure"])
+
+    if selection == "Name":
+        name = raw_input("Enter a new name: ")
+
+        db.query("""
+
+        UPDATE procedures SET name='{name}' WHERE
+        experiment_id={id}
+
+        """.format(name=name, id=id))
+        
+    elif selection == "Project":
+        new_project = choice.make_choice("projects",
+                                         "SELECT name, project_id FROM projects")
+            
+        db.query("""
+        
+        UPDATE experiments SET project_id='{project_id}' WHERE
+        experiment_id={id}
+            
+        """.format(id=id, project_id=new_project["project_id"]))
+
+#    elif selection == "Procedure":
+        
+    
