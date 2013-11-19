@@ -13,6 +13,7 @@ edit = {
     'projects' : edit.edit_project,
     'procedures' : edit.edit_procedure,
     'experiments' : edit.edit_experiment,
+    'reagents' : edit.edit_reagent
 }
     
 

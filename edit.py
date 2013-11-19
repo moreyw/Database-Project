@@ -99,5 +99,40 @@ def edit_experiment(experiment):
             experiment_id={id}
 
             """.format(id=id, procedure_id=new_procedure["procedure_id"]))
-        
+
+def edit_reagent(reagent):
+    id = reagent["reagent_id"]
+    selection = choose_field(["Name", "Status", "Location"])
+
+    if selection == "Name":
+        name = raw_input("Enter a new name: ")
+
+        db.query("""
+
+            UPDATE reagents SET name='{name}' WHERE
+            reagent_id={id}
+
+            """.format(name=name, id=id))
+    
+    elif selection == "Status":
+        status = raw_input("Enter new status: ")
+
+        db.query("""
+
+            UPDATE reagents SET status='{status}' WHERE
+            reagent_id={id}
+
+            """.format(status=status, id=id))
+
+    elif selection == "Location":
+        location = raw_input("Enter new location: ")
+
+        db.query("""
+
+            UPDATE reagents SET location='{location}' WHERE
+            reagent_id={id}
+
+            """.format(location=location, id=id))
+
+    
     
