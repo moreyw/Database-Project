@@ -6,14 +6,17 @@ create = {
     'projects' : create.new_project,
     'procedures' : create.new_procedure,
     'experiments' : create.new_experiment,
-    'reagents' : create.new_reagent
+    'reagents' : create.new_reagent,
+    'equipment' : create.new_equipment,
+    'specimens' : create.new_specimen
 }
 
 edit = {
     'projects' : edit.edit_project,
     'procedures' : edit.edit_procedure,
     'experiments' : edit.edit_experiment,
-    'reagents' : edit.edit_reagent
+    'reagents' : edit.edit_reagent,
+    'equipment' : edit.edit_equipment
 }
     
 

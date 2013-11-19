@@ -134,5 +134,39 @@ def edit_reagent(reagent):
 
             """.format(location=location, id=id))
 
+def edit_equipment(equipment):
+    id = equipment["equipment_id"]
+    selection = choose_field(["Name", "Status", "Location"])
+
+    if selection == "Name":
+        name = raw_input("Enter a new name: ")
+
+        db.query("""
+
+            UPDATE equipment SET name='{name}' WHERE
+            equipment_id={id}
+
+            """.format(name=name, id=id))
+    
+    elif selection == "Status":
+        status = raw_input("Enter new status: ")
+
+        db.query("""
+
+            UPDATE equipment SET status='{status}' WHERE
+            equipment_id={id}
+
+            """.format(status=status, id=id))
+
+    elif selection == "Location":
+        location = raw_input("Enter new location: ")
+
+        db.query("""
+
+            UPDATE equipment SET location='{location}' WHERE
+            equipment_id={id}
+
+            """.format(location=location, id=id))
+
     
     
