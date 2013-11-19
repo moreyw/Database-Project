@@ -116,6 +116,33 @@ CREATE TABLE used_on(
 #Start inserting test values
 INSERT INTO projects (project_id, name) VALUES (NULL, 'Sample Project');
 
+INSERT INTO procedures (procedure_id, name, description) VALUES
+    (NULL, 'Sample Procedure', 'Description of Sample Procedure');
+
+INSERT INTO experiments (experiment_id, project_id, procedure_id, name) VALUES
+    (NULL, 1, 1, 'New Experiment');
+
+INSERT INTO reagents (reagent_id, name, status, location) VALUES
+    (NULL, 'Test Reagent', 'Volatile', 'Fridge');
+
+INSERT INTO use_reagents (procedure_id, reagent_id) VALUES
+    (1, 1);
+
+INSERT INTO equipment (equipment_id, name, status, location) VALUES
+    (NULL, 'Syringe', 'Contaminated', 'Biohazard container');
+
+INSERT INTO use_equipment(equipment_id, procedure_id) VALUES
+    (1, 1);
+
+INSERT INTO specimens (specimen_id, name, origin) VALUES
+    (NULL, "Test Specimen", "Sample origin");
+
+INSERT INTO use_specimens (specimen_id, experiment_id) VALUES
+    (1, 1);
+
+INSERT INTO measurements (measurement_id, specimen_id, value, type) VALUES
+    (NULL, 1, 20, 'Feet');
+
 """
 
 #Execute every query in the setup

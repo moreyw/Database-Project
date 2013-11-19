@@ -2,7 +2,6 @@ from database import *
 import create
 import edit
 
-
 create = {
     'projects' : create.new_project,
     'procedures' : create.new_procedure,
@@ -12,7 +11,8 @@ create = {
 
 edit = {
     'projects' : edit.edit_project,
-    'procedures' : edit.edit_procedure
+    'procedures' : edit.edit_procedure,
+    'experiments' : edit.edit_experiment,
 }
     
 

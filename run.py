@@ -5,6 +5,7 @@ import _mysql
 from database import *
 from choice import *
 from edit import *
+from report import generate_report
 
 def core_choice():
     s = ( "exit",
@@ -13,7 +14,11 @@ def core_choice():
           "experiments",
           "reagents",
           "equipment",
-          "specimens")
+          "specimens",
+          "generate report")
+
+    print "Edit or create new: "
+    
     for index, item in enumerate(s):
         print "{}: {}".format(index, item)
 
@@ -33,6 +38,10 @@ def core_choice():
         except Exception:
             print "Invalid choice, please try again."
 
+    if s[choice] == "generate report":
+        generate_report()
+        return True
+        
     item = make_choice(s[choice], "SELECT * FROM {}".format(s[choice]))
     
     print "\n{} INFO".format(s[choice]).upper()
