@@ -1,16 +1,46 @@
 from database import *
 
 def measurement_report(measurement):
-    print(measurements)
+    print("  Type: {}, Value: {}".format(measurement["type"],
+                                         measurement["value"]))
+    
 
 def specimen_report(specimen):
-    print(speciemen)
+    print("  Specimen Name: {}".format(specimen["name"]))
+    print("  Specimen Origin: {}".format(specimen["origin"]))
+
+    print("  Specimen Measurements:")
+
+    db.query("""
+    
+    SELECT * FROM measurements WHERE
+    specimen_id={}
+    
+    """.format(specimen["specimen_id"]))
+
+    r=db.store_result()
+
+    #get all rows as dictionaries
+    rows = r.fetch_row(maxrows=0, how=1)
+
+    if len(rows) == 0:
+        print("  None")
+        return
+        
+    for measurement in rows:
+        measurement_report(measurement)
+    
 
 def equipment_report(equipment):
-    print(equipment)
+    print("  Equipment Name: {}".format(equipment["name"]))
+    print("  Equipment Status: {}".format(equipment["status"]))
+    print("  Equipment Location: {}".format(equipment["location"]))
 
 def reagent_report(reagent):
-    print(reagent)
+    print("  Reagent Name: {}".format(reagent["name"]))
+    print("  Reagent Status: {}".format(reagent["status"]))
+    print("  Reagent Location: {}".format(reagent["location"]))
+
 
 def procedure_report(procedure):
     print("  Procedure Name: {}".format(procedure["name"]))
@@ -37,6 +67,8 @@ def procedure_report(procedure):
     for reagent in rows:
         reagent_report(reagent)
 
+    print("Equipment used: ")
+    
     db.query("""
     
     SELECT * FROM use_equipment, equipment WHERE
