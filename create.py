@@ -78,8 +78,8 @@ def new_reagent():
 def new_equipment():
     print("Creating new equipment")
     name = raw_input("New equipment name: ")
-    status = raw_input("equipment status: ")
-    location = raw_input("equipment location: ")
+    status = raw_input("New equipment status: ")
+    location = raw_input("New equipment location: ")
 
     db.query("""
         INSERT INTO equipment (equipment_id, name, status, location)
@@ -96,7 +96,7 @@ def new_equipment():
 def new_specimen():
     print("Creating new specimen")
     name = raw_input("New Specimen name: ")
-    origin = raw_input("Specimen origin: ")
+    origin = raw_input("New specimen origin: ")
 
     db.query("""
         INSERT INTO specimens (specimen_id, name, origin)

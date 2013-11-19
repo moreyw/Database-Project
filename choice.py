@@ -16,7 +16,8 @@ edit = {
     'procedures' : edit.edit_procedure,
     'experiments' : edit.edit_experiment,
     'reagents' : edit.edit_reagent,
-    'equipment' : edit.edit_equipment
+    'equipment' : edit.edit_equipment,
+    'specimens' : edit.edit_specimen
 }
     
 

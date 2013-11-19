@@ -168,5 +168,30 @@ def edit_equipment(equipment):
 
             """.format(location=location, id=id))
 
-    
+def edit_specimen(specimen):
+    id = specimen["specimen_id"]
+    selection = choose_field(["Name", "Origin", "Measurements"])
+
+    if selection=="Name":
+        name = raw_input("Enter a new name: ")
+
+        db.query("""
+
+            UPDATE specimens SET name='{name}' WHERE
+            specimen_id={id}
+
+            """.format(name=name, id=id))
+
+    elif selection=="Origin":
+        origin = raw_input("Enter a new origin: ")
+
+        db.query("""
+
+            UPDATE specimens SET origin='{origin}' WHERE
+            specimen_id={id}
+
+            """.format (origin=origin, id=id))
+
+    elif selection=="Measurements":
+        return
     
