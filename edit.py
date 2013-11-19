@@ -89,6 +89,15 @@ def edit_experiment(experiment):
             
         """.format(id=id, project_id=new_project["project_id"]))
 
-#    elif selection == "Procedure":
+    elif selection == "Procedure":
+        new_procedure = choice.make_choice("procedures", 
+                                            "SELECT name, procedure_id FROM procedures")
+
+        db.query("""
+
+            UPDATE experiments SET procedure_id='{procedure_id}' WHERE 
+            experiment_id={id}
+
+            """.format(id=id, procedure_id=new_procedure["procedure_id"]))
         
     
