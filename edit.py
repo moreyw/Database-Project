@@ -39,7 +39,7 @@ def edit_project(project):
 
 def edit_procedure(procedure):
     id = procedure["procedure_id"]
-    selection = choose_field(["Name", "Description", "Equipment"])
+    selection = choose_field(["Name", "Description", "Equipment", "Reagents"])
     
     
     if selection == "Name":
@@ -64,11 +64,11 @@ def edit_procedure(procedure):
 
     elif selection == "Equipment":
         equipment, option = choice.relation_choice("equipment", """
-                SELECT e.name, e.equipment_id FROM procedures p, equipment e, use_equipment u WHERE
+                SELECT e.name, e.equipment_id FROM 
+                    procedures p, equipment e, use_equipment u WHERE
                     p.procedure_id = u.procedure_id AND 
                     e.equipment_id = u.equipment_id
                 """)
-        print option
         if option == "add":
             db.query("""
 
@@ -79,11 +79,31 @@ def edit_procedure(procedure):
         elif option == "remove" and equipment:
             db.query("""
 
-                DELETE FROM use_equipment WHERE equipment_id={}
+                DELETE FROM use_equipment WHERE equipment_id={} AND procedure_id={}
 
-                """.format(equipment["equipment_id"]))
-        print "Finished"
-        
+                """.format(equipment["equipment_id"], procedure["procedure_id"]))
+
+    elif selection == "Reagents":
+        reagent, option = choice.relation_choice("reagents", """
+                        SELECT r.name, r.reagent_id FROM 
+                            reagents r, procedures p, use_reagents u WHERE
+                            p.procedure_id = u.procedure_id AND
+                            r.reagent_id = u.reagent_id
+                        """)
+        if option == "add":
+            print "Here"
+            db.query("""
+
+                INSERT INTO use_reagents (reagent_id, procedure_id)
+                VALUES ('{}', '{}') 
+
+            """.format(reagent["reagent_id"], procedure["procedure_id"]))
+        elif option == "remove" and reagent:
+            db.query("""
+
+                DELETE FROM use_reagents WHERE reagent_id={} AND procedure_id={}
+
+                """.format(reagent["reagent_id"], procedure["procedure_id"]))
     db.commit()
 
 def edit_experiment(experiment):
