@@ -74,3 +74,27 @@ def make_choice(name, statement, new_option=True):
 
     if choice == 2:
         return create_new(name)
+
+def relation_choice(name, statement):
+    choice = None
+    while choice not in range(1, 3):
+        try:
+            choice = int(raw_input("Add[1] or remove[2] {}: ".format(name)))
+            if choice not in range(1, 3):
+                raise ValueError("invalid choice")
+                
+        except Exception:
+            print "Invalid choice, please try again."
+
+    if choice == 1:
+        return make_choice(name, "SELECT * FROM {}".format(name)), "add"
+        
+    if choice == 2:
+        selected = choose_existing(statement)
+        if selected:
+            return selected, "remove"
+        else:
+            print "No existing " + name + "."
+            return None, "remove"
+
+    

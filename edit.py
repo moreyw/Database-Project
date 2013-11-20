@@ -39,7 +39,7 @@ def edit_project(project):
 
 def edit_procedure(procedure):
     id = procedure["procedure_id"]
-    selection = choose_field(["Name", "Description"])
+    selection = choose_field(["Name", "Description", "Equipment"])
     
     
     if selection == "Name":
@@ -61,6 +61,28 @@ def edit_procedure(procedure):
         procedure_id={id}
 
         """.format(description=description, id=id))
+
+    elif selection == "Equipment":
+        equipment, option = choice.relation_choice("equipment", """
+                SELECT e.name, e.equipment_id FROM procedures p, equipment e, use_equipment u WHERE
+                    p.procedure_id = u.procedure_id AND 
+                    e.equipment_id = u.equipment_id
+                """)
+        print option
+        if option == "add":
+            db.query("""
+
+                INSERT INTO use_equipment (equipment_id, procedure_id)
+                VALUES ('{}', '{}') 
+
+            """.format(equipment["equipment_id"], procedure["procedure_id"]))
+        elif option == "remove" and equipment:
+            db.query("""
+
+                DELETE FROM use_equipment WHERE equipment_id={}
+
+                """.format(equipment["equipment_id"]))
+        print "Finished"
         
     db.commit()
 
@@ -99,6 +121,7 @@ def edit_experiment(experiment):
             experiment_id={id}
 
             """.format(id=id, procedure_id=new_procedure["procedure_id"]))
+    db.commit()
 
 def edit_reagent(reagent):
     id = reagent["reagent_id"]
@@ -133,6 +156,7 @@ def edit_reagent(reagent):
             reagent_id={id}
 
             """.format(location=location, id=id))
+    db.commit()
 
 def edit_equipment(equipment):
     id = equipment["equipment_id"]
@@ -167,6 +191,7 @@ def edit_equipment(equipment):
             equipment_id={id}
 
             """.format(location=location, id=id))
+    db.commit()
 
 def edit_specimen(specimen):
     id = specimen["specimen_id"]
@@ -194,4 +219,5 @@ def edit_specimen(specimen):
 
     elif selection=="Measurements":
         return
+    db.commit()
     
