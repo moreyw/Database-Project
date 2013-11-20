@@ -1,6 +1,7 @@
 
 from database import *
 import choice
+import create
 
 
 def choose_field(fields):
@@ -238,6 +239,39 @@ def edit_specimen(specimen):
             """.format (origin=origin, id=id))
 
     elif selection=="Measurements":
-        return
+        edit_measurement(specimen)
     db.commit()
     
+def edit_measurement(specimen):
+    option = None
+    while option not in range(1, 3):
+        try:
+            option = int(raw_input("Add[1] or remove[2] measurement: "))
+            if option not in range(1, 3):
+                raise ValueError("invalid choice")
+                
+        except Exception:
+            print "Invalid choice, please try again."
+
+    if option == 1:
+        create.new_measurement(specimen["specimen_id"])
+        
+    elif option == 2:
+        selected = choice.choose_measurement("""
+                SELECT * FROM measurements WHERE
+                specimen_id={}
+                """.format(specimen["specimen_id"]))
+        if selected:
+            db.query("""
+
+                DELETE FROM measurements WHERE
+                measurement_id={}
+
+                """.format(selected["measurement_id"]))
+        else:
+            print "No existing measurements."
+
+
+
+
+

@@ -88,7 +88,7 @@ def relation_choice(name, statement):
 
     if choice == 1:
         return make_choice(name, "SELECT * FROM {}".format(name)), "add"
-        
+
     if choice == 2:
         selected = choose_existing(statement)
         if selected:
@@ -98,3 +98,28 @@ def relation_choice(name, statement):
             return None, "remove"
 
     
+def choose_measurement(statement):
+    db.query(statement)
+    r=db.store_result()
+
+    #get all rows as dictionaries
+    rows = r.fetch_row(maxrows=0, how=1)
+    size = len(rows)
+
+    if not size:
+        return None
+    
+    for num, row in enumerate(rows):
+        print "{}: {}".format(num, row["type"])
+
+    choice = None
+    while choice not in range(size):
+        try:
+            choice = int(raw_input("Select an existing value: "))
+            if choice not in range(size):
+                raise ValueError("invalid choice")
+                
+        except Exception:
+            print "Invalid choice, please try again."
+
+    return rows[choice]
