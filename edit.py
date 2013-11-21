@@ -66,10 +66,10 @@ def edit_procedure(procedure):
     elif selection == "Equipment":
         equipment, option = choice.relation_choice("equipment", """
                 SELECT e.name, e.equipment_id FROM 
-                    procedures p, equipment e, use_equipment u WHERE
-                    p.procedure_id = u.procedure_id AND 
+                    equipment e, use_equipment u WHERE
+                    {} = u.procedure_id AND 
                     e.equipment_id = u.equipment_id
-                """)
+                """.format(procedure["procedure_id"]))
         if option == "add":
             db.query("""
 
@@ -87,12 +87,11 @@ def edit_procedure(procedure):
     elif selection == "Reagents":
         reagent, option = choice.relation_choice("reagents", """
                         SELECT r.name, r.reagent_id FROM 
-                            reagents r, procedures p, use_reagents u WHERE
-                            p.procedure_id = u.procedure_id AND
+                            reagents r,  use_reagents u WHERE
+                            {} = u.procedure_id AND
                             r.reagent_id = u.reagent_id
-                        """)
+                        """.format(procedure["procedure_id"]))
         if option == "add":
-            print "Here"
             db.query("""
 
                 INSERT INTO use_reagents (reagent_id, procedure_id)
@@ -109,7 +108,7 @@ def edit_procedure(procedure):
 
 def edit_experiment(experiment):
     id = experiment["experiment_id"]
-    selection = choose_field(["Name", "Project", "Procedure"])
+    selection = choose_field(["Name", "Project", "Procedure", "Specimens"])
 
     if selection == "Name":
         name = raw_input("Enter a new name: ")
@@ -142,6 +141,41 @@ def edit_experiment(experiment):
             experiment_id={id}
 
             """.format(id=id, procedure_id=new_procedure["procedure_id"]))
+    elif selection == "Specimens":
+        specimen, option = choice.relation_choice("specimens", """
+                SELECT s.name, s.specimen_id FROM 
+                    specimens s, use_specimens u WHERE
+                    s.specimen_id = u.specimen_id AND 
+                    u.experiment_id = {}
+                """.format(experiment["experiment_id"]))
+
+        if option == "add":
+            db.query("""
+
+                INSERT INTO use_specimens (experiment_id, specimen_id)
+                VALUES ('{}', '{}');
+
+            """.format(experiment["experiment_id"], specimen["specimen_id"]))
+            
+            db.query("""
+
+                INSERT INTO used_on (procedure_id, specimen_id)
+                VALUES ('{}', '{}'); 
+
+            """.format(experiment["procedure_id"], specimen["specimen_id"]))
+
+        elif option == "remove" and specimen:
+            db.query("""
+
+                DELETE FROM use_specimens WHERE experiment_id={} AND specimen_id={};
+
+                """.format(experiment["experiment_id"], specimen["specimen_id"]))
+            
+            db.query("""
+
+                DELETE FROM used_on WHERE procedure_id={} AND specimen_id={};
+
+                """.format(experiment["procedure_id"], specimen["specimen_id"]))
     db.commit()
 
 def edit_reagent(reagent):

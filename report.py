@@ -51,6 +51,7 @@ def procedure_report(procedure):
     db.query("""
     
     SELECT * FROM use_reagents, reagents WHERE
+    use_reagents.reagent_id = reagents.reagent_id AND
     procedure_id={}
     
     """.format(procedure["procedure_id"]))
@@ -72,6 +73,7 @@ def procedure_report(procedure):
     db.query("""
     
     SELECT * FROM use_equipment, equipment WHERE
+    use_equipment.equipment_id = equipment.equipment_id AND
     procedure_id={}
     
     """.format(procedure["procedure_id"]))
@@ -90,7 +92,7 @@ def procedure_report(procedure):
     
 
 def experiment_report(experiment):
-    print("  Experiment Name: {}".format(experiment["name"]))
+    print("Experiment Name: {}".format(experiment["name"]))
 
     db.query("""
     
@@ -110,7 +112,8 @@ def experiment_report(experiment):
 
     db.query("""
     
-    SELECT * FROM specimens, use_specimens WHERE
+    SELECT * FROM specimens, use_specimens WHERE 
+    specimens.specimen_id = use_specimens.specimen_id AND
     experiment_id={}
     
     """.format(experiment["experiment_id"]))
