@@ -1,5 +1,21 @@
 from database import *
 
+def specimen_history(specimen):
+    
+    db.query("""
+    
+    SELECT * FROM used_on, procedures WHERE
+    specimen_id={}
+    
+    """.format(specimen["specimen_id"]))
+
+    r=db.store_result()
+
+    rows = r.fetch_row(maxrows=0, how=1)
+    for procedure in rows:
+        print "  Used in procedure ({})".format(procedure["name"])
+    
+
 def measurement_report(measurement):
     print("  Type: {}, Value: {}".format(measurement["type"],
                                          measurement["value"]))
@@ -29,6 +45,8 @@ def specimen_report(specimen):
         
     for measurement in rows:
         measurement_report(measurement)
+
+    specimen_history(specimen)
     
 
 def equipment_report(equipment):

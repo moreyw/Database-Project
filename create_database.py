@@ -143,6 +143,8 @@ INSERT INTO use_specimens (specimen_id, experiment_id) VALUES
 INSERT INTO measurements (measurement_id, specimen_id, value, type) VALUES
     (NULL, 1, 20, 'Feet');
 
+INSERT INTO used_on (specimen_id, procedure_id) VALUES
+    (1, 1);
 """
 
 #Execute every query in the setup
